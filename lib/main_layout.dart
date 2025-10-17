@@ -3,7 +3,7 @@ import 'package:bloodmate_app/blood/pressure/pressure_page.dart';
 import 'package:bloodmate_app/blood/sugar/sugar_page.dart';
 import 'package:bloodmate_app/board/board_page.dart';
 import 'package:bloodmate_app/style/app_color.dart';
-import 'package:bloodmate_app/user/user_login.dart';
+import 'package:bloodmate_app/user/login_page.dart';
 import 'package:flutter/material.dart';
 
 class MainLayout extends StatefulWidget {
@@ -27,7 +27,7 @@ class _MainLayoutState extends State<MainLayout> {
     // 게시판 페이지 --> 3
     BoardPage(),
     // 로그인 페이지 --> 4
-    UserLogin(),
+    LoginPage(),
   ];
 
   @override
@@ -60,7 +60,7 @@ class _MainLayoutState extends State<MainLayout> {
               print("index : $indexNumber");
               if(indexNumber == 4) {
                 indexNumber = 0;
-                Navigator.push(context, MaterialPageRoute(builder : (context) => UserLogin()));
+                Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
               }
             }),
             items : [
