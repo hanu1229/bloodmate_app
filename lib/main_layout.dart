@@ -4,7 +4,9 @@ import 'package:bloodmate_app/blood/sugar/sugar_page.dart';
 import 'package:bloodmate_app/board/board_page.dart';
 import 'package:bloodmate_app/style/app_color.dart';
 import 'package:bloodmate_app/user/login_page.dart';
+import 'package:bloodmate_app/user/user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainLayout extends StatefulWidget {
 
@@ -16,6 +18,20 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
 
   int indexNumber = 0;
+  SharedPreferences? ps;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadPrefs();
+  }
+
+  Future<void> loadPrefs() async {
+    ps = await SharedPreferences.getInstance();
+    if(!mounted) { return; }
+    setState(() {});
+  }
 
   final List<Widget> pages = [
     // 당화혈색소 페이지 --> 0
@@ -26,8 +42,8 @@ class _MainLayoutState extends State<MainLayout> {
     PressurePage(),
     // 게시판 페이지 --> 3
     BoardPage(),
-    // 로그인 페이지 --> 4
-    LoginPage(),
+    // 내정보 페이지 --> 4
+    UserInfo(),
   ];
 
   @override
@@ -59,8 +75,11 @@ class _MainLayoutState extends State<MainLayout> {
               indexNumber = index;
               print("index : $indexNumber");
               if(indexNumber == 4) {
-                indexNumber = 0;
-                Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
+                final token = ps?.getString("token");
+                if(token == null || token.isEmpty) {
+                  indexNumber = 0;
+                  Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
+                }
               }
             }),
             items : [
@@ -77,8 +96,11 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ),
       ),
-      floatingActionButton : FloatingActionButton(
-        onPressed : () {},
+      floatingActionButton : indexNumber == 4 ? null : FloatingActionButton(
+        onPressed : () {
+          final token = ps?.getString("token");
+          print("token : $token");
+        },
         backgroundColor : AppColors.mainColor,
         child : Icon(Icons.add, color : Colors.white),
       ),

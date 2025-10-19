@@ -1,4 +1,6 @@
+import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +15,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  Dio dio = Dio();
+
   bool _visibility = true;
+  bool _loginfail = false;
 
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
@@ -22,9 +27,20 @@ class _LoginPageState extends State<LoginPage> {
     String id = idController.text;
     String pwd = pwdController.text;
     print("id : $id | pwd : $pwd");
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setString("token", "login success!!!");
-    print(sp.getString("token"));
+    try {
+      final response = await dio.post("${ServerDomain.domain}/user/login", data : {"userLoginId" : id, "userPassword" : pwd});
+      if(response.statusCode == 200) {
+        SharedPreferences sp = await SharedPreferences.getInstance();
+        await sp.setString("token", response.data);
+        print(sp.getString("token"));
+        Navigator.pop(context);
+      }
+    } catch(e) {
+      setState(() {
+        _loginfail = true;
+      });
+    }
+
   }
 
   @override
@@ -32,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar : AppBar(
         backgroundColor : Colors.white,
-        shape : Border(bottom : BorderSide(color : AppColors.mainColor, width : 1))
+        leading : IconButton(icon : Icon(Icons.arrow_back, color : AppColors.mainColor), onPressed : () { Navigator.pop(context); }),
       ),
       body : SafeArea(
         child: Container(
@@ -85,6 +101,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child : Text("로그인", style : TextStyle(color : Colors.white)),
                 ),
+              ),
+              SizedBox(height : 16.0),
+              // 로그인 실패 텍스트
+              SizedBox(
+                  child : Text(
+                      _loginfail ? "로그인 실패" : "",
+                      style : TextStyle(
+                          color : Colors.red,
+                          fontSize : 16,
+                          fontWeight : FontWeight.bold,
+                      ),
+                  ),
               ),
             ],
           ),
