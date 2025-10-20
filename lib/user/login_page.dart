@@ -1,5 +1,8 @@
 import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
+import 'package:bloodmate_app/user/search_id_page.dart';
+import 'package:bloodmate_app/user/search_pwd_page.dart';
+import 'package:bloodmate_app/user/signup_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,6 +104,32 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child : Text("로그인", style : TextStyle(color : Colors.white)),
                 ),
+              ),
+              SizedBox(height : 16.0),
+              Row(
+                mainAxisAlignment : MainAxisAlignment.spaceEvenly,
+                children : [
+                  GestureDetector(
+                    onTap : () {
+                      Navigator.push(context, MaterialPageRoute(builder : (context) => SignUpPage()));
+                    },
+                    child : Text("회원가입")
+                  ),
+                  Text("|"),
+                  GestureDetector(
+                      onTap : () {
+                        Navigator.push(context, MaterialPageRoute(builder : (context) => SearchIdPage()));
+                      },
+                      child : Text("아이디 찾기")
+                  ),
+                  Text("|"),
+                  GestureDetector(
+                      onTap : () {
+                        Navigator.push(context, MaterialPageRoute(builder : (context) => SearchPwdPage()));
+                      },
+                      child : Text("비밀번호 찾기")
+                  ),
+                ],
               ),
               SizedBox(height : 16.0),
               // 로그인 실패 텍스트

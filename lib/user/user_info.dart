@@ -1,6 +1,10 @@
 import 'package:bloodmate_app/main_layout.dart';
 import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
+import 'package:bloodmate_app/user/delete_user_page.dart';
+import 'package:bloodmate_app/user/email_change_page.dart';
+import 'package:bloodmate_app/user/password_change_page.dart';
+import 'package:bloodmate_app/user/phone_change_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,29 +28,70 @@ class _UserInfoState extends State<UserInfo> {
     super.initState();
     loadInfo();
   }
-  // String title, String infoText
-  Widget customCard({required String title, required String infoText}) {
-    return Card(
-      color : Colors.white,
-      shape : RoundedRectangleBorder(
-        borderRadius : BorderRadius.all(Radius.circular(8.0)),
-        side : BorderSide(color : AppColors.mainColor),
-      ),
-      child : Container(
-        padding : const EdgeInsets.all(16.0),
-        width : double.infinity,
-        child: Column(
-          mainAxisAlignment : MainAxisAlignment.center,
-          crossAxisAlignment : CrossAxisAlignment.start,
-          children : [
-            Text(title, style : TextStyle(fontSize : 16)),
-            Text(infoText, style : TextStyle(fontSize : 20,fontWeight : FontWeight.bold)),
-          ],
-        ),
-      ),
+
+  // 이메일 수정 페이지
+  void openEmailPage() async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder : (context) => EmailChangePage(email : info["userEmail"] as String? ?? ""))
     );
+    if(result) {
+      loadInfo();
+    }
   }
 
+  // 전화번호 수정 페이지
+  void openPhonePage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PhoneChangePage(phone : info["userPhone"] as String? ?? ""))
+    );
+    if(result) {
+      loadInfo();
+    }
+  }
+
+  // 비밀번호 수정 페이지
+  void openPasswordPage() async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PasswordChangePage())
+    );
+    if(result) {
+      logout();
+    }
+  }
+
+  // 회원 탈퇴 페이지
+  void openDeletePage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder : (context) => DeleteUserPage())
+    );
+    if(result) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("token");
+      Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => MainLayout() ));
+    }
+  }
+
+  // 로그아웃
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final token = prefs.getString("token");
+      final response = await dio.post("${ServerDomain.domain}/user/logout", options : Options(headers : {"Authorization" : token}));
+      if(response.data) {
+        prefs.remove("token");
+      }
+    } catch(e) {
+      print("로그아웃 실패");
+    }
+    // 홈으로 화면을 옮김
+    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => MainLayout() ));
+  }
+
+  // 내정보 로드
   Future<void> loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token");
@@ -60,6 +105,8 @@ class _UserInfoState extends State<UserInfo> {
       }
     } catch(e) {
       print("에러!!!");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("token");
     }
   }
 
@@ -96,7 +143,7 @@ class _UserInfoState extends State<UserInfo> {
                             child: Text("이름", style : TextStyle(fontSize : 20, fontWeight : FontWeight.bold)),
                           ),
                           SizedBox(width : 16),
-                          Text(info["userName"] as String? ?? '', style : TextStyle(fontSize : 20,fontWeight : FontWeight.bold)),
+                          Text(info["userName"] as String? ?? "", style : TextStyle(fontSize : 20,fontWeight : FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -111,7 +158,7 @@ class _UserInfoState extends State<UserInfo> {
                             child: Text("생년월일", style : TextStyle(fontSize : 16)),
                           ),
                           SizedBox(width : 16),
-                          Text(info["userBirthDate"] as String? ?? '', style : TextStyle(fontSize : 16)),
+                          Text(info["userBirthDate"] as String? ?? "", style : TextStyle(fontSize : 16)),
                         ],
                       ),
                     ),
@@ -126,7 +173,7 @@ class _UserInfoState extends State<UserInfo> {
                             child: Text("닉네임", style : TextStyle(fontSize : 16)),
                           ),
                           SizedBox(width : 16),
-                          Text(info["userNickname"], style : TextStyle(fontSize : 16)),
+                          Text(info["userNickname"] as String? ?? "", style : TextStyle(fontSize : 16)),
                         ],
                       ),
                     ),
@@ -144,7 +191,23 @@ class _UserInfoState extends State<UserInfo> {
                                 child: Text("이메일", style : TextStyle(fontSize : 16), overflow : TextOverflow.ellipsis),
                               ),
                               SizedBox(width : 16),
-                              Text(info["userEmail"] as String? ?? '', style : TextStyle(fontSize : 16)),
+                              Tooltip(
+                                triggerMode : TooltipTriggerMode.longPress,
+                                showDuration : Duration(seconds : 3),
+                                message : info["userEmail"] as String? ?? "",
+                                textStyle : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),
+                                decoration : BoxDecoration(color : AppColors.mainColor),
+                                child: SizedBox(
+                                  width : 160,
+                                  child : Text(
+                                    info["userEmail"] as String? ?? "",
+                                    style : TextStyle(
+                                      fontSize : 16,
+                                      overflow : TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           ElevatedButton(
@@ -154,7 +217,7 @@ class _UserInfoState extends State<UserInfo> {
                                 borderRadius : BorderRadius.circular(8.0),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed : openEmailPage,
                             child: Text("수정", style : TextStyle(color : Colors.white)),
                           ),
                         ],
@@ -174,7 +237,7 @@ class _UserInfoState extends State<UserInfo> {
                                 child: Text("전화번호", style : TextStyle(fontSize : 16), overflow : TextOverflow.ellipsis),
                               ),
                               SizedBox(width : 16),
-                              Text(info["userPhone"] as String? ?? '', style : TextStyle(fontSize : 16)),
+                              Text(info["userPhone"] as String? ?? "", style : TextStyle(fontSize : 16)),
                             ],
                           ),
                           ElevatedButton(
@@ -184,7 +247,7 @@ class _UserInfoState extends State<UserInfo> {
                                 borderRadius : BorderRadius.circular(8.0),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: openPhonePage,
                             child: Text("수정", style : TextStyle(color : Colors.white)),
                           ),
                         ],
@@ -215,7 +278,7 @@ class _UserInfoState extends State<UserInfo> {
                           borderRadius : BorderRadius.circular(8.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: openPasswordPage,
                       child: Text("수정", style : TextStyle(color : Colors.white)),
                     ),
                   ],
@@ -233,20 +296,7 @@ class _UserInfoState extends State<UserInfo> {
                     borderRadius : BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed : () async {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  try {
-                    final token = prefs.getString("token");
-                    final response = await dio.post("${ServerDomain.domain}/user/logout", options : Options(headers : {"Authorization" : token}));
-                    if(response.data) {
-                      prefs.remove("token");
-                    }
-                  } catch(e) {
-                    print("로그아웃 실패");
-                  }
-                  // 홈으로 화면을 옮김
-                  Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => MainLayout() ));
-                },
+                onPressed : logout,
                 child : Text("로그아웃", style : TextStyle(color : Colors.white)),
               ),
             ),
@@ -282,7 +332,7 @@ class _UserInfoState extends State<UserInfo> {
                             borderRadius : BorderRadius.circular(8.0),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: openDeletePage,
                         child: Text("탈퇴하기", style : TextStyle(color : Colors.white)),
                       ),
                     ),
