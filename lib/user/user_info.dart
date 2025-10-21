@@ -1,4 +1,5 @@
 import 'package:bloodmate_app/main_layout.dart';
+import 'package:bloodmate_app/modals/CustomAlertDialog.dart';
 import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
 import 'package:bloodmate_app/user/delete_user_page.dart';
@@ -296,7 +297,20 @@ class _UserInfoState extends State<UserInfo> {
                     borderRadius : BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed : logout,
+                onPressed : () async {
+                  dynamic result = await showDialog(
+                    context : context,
+                    builder : (context) => CustomAlertDialog(
+                      context : context,
+                      title : "로그아웃",
+                      content : "정말로 로그아웃 하시겠습니까?",
+                      isChange : true,
+                      isCancel : true,
+                    ),
+                  );
+                  if(result) { return; }
+                  logout();
+                },
                 child : Text("로그아웃", style : TextStyle(color : Colors.white)),
               ),
             ),

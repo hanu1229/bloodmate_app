@@ -6,13 +6,15 @@ class CustomAlertDialog extends StatelessWidget {
   final String title;
   final String content;
   final bool isChange;
+  final bool isCancel;
 
   const CustomAlertDialog({
     super.key,
     required BuildContext context,
     required this.title,
     required this.content,
-    required this.isChange
+    required this.isChange,
+    this.isCancel = false,
   });
 
   @override
@@ -40,6 +42,19 @@ class CustomAlertDialog extends StatelessWidget {
           },
           child : Text("확인", style : TextStyle(color : Colors.white)),
         ),
+        isCancel ? ElevatedButton(
+          style : ElevatedButton.styleFrom(
+            backgroundColor : Colors.grey,
+            shape : RoundedRectangleBorder(
+              borderRadius : BorderRadius.circular(8.0),
+            ),
+          ),
+          onPressed : () {
+            print("취소!!!");
+            Navigator.pop(context, true);
+          },
+          child : Text("취소", style : TextStyle(color : Colors.white)),
+        ) : SizedBox(),
       ],
     );
   }
