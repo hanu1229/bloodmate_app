@@ -122,7 +122,6 @@ class _UserInfoState extends State<UserInfo> {
           crossAxisAlignment : CrossAxisAlignment.center,
           children : [
             SizedBox(height : 16),
-            // 변경 중
             Card(
               color : Colors.white,
               shape : RoundedRectangleBorder(
@@ -133,83 +132,74 @@ class _UserInfoState extends State<UserInfo> {
                 padding : const EdgeInsets.all(16.0),
                 width : double.infinity,
                 child: Column(
+                  mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment : CrossAxisAlignment.start,
                   children: [
                     // 이름
                     SizedBox(
+                      width : double.infinity,
                       height : 48,
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment : CrossAxisAlignment.start,
                         children : [
-                          SizedBox(
-                            width : 60,
-                            child: Text("이름", style : TextStyle(fontSize : 20, fontWeight : FontWeight.bold)),
-                          ),
-                          SizedBox(width : 16),
-                          Text(info["userName"] as String? ?? "", style : TextStyle(fontSize : 20,fontWeight : FontWeight.bold)),
+                          Text("이름", style : TextStyle(fontSize : 16)),
+                          Text(info["userName"] as String? ?? "", style : TextStyle(fontSize : 16, fontWeight : FontWeight.bold, overflow : TextOverflow.ellipsis)),
                         ],
                       ),
                     ),
-                    SizedBox(height : 16),
+                    Divider(),
                     // 생년월일
                     SizedBox(
                       height : 48,
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment : CrossAxisAlignment.start,
                         children : [
-                          SizedBox(
-                            width : 60,
-                            child: Text("생년월일", style : TextStyle(fontSize : 16)),
-                          ),
-                          SizedBox(width : 16),
-                          Text(info["userBirthDate"] as String? ?? "", style : TextStyle(fontSize : 16)),
+                          Text("생년월일", style : TextStyle(fontSize : 16)),
+                          Text(info["userBirthDate"] as String? ?? "", style : TextStyle(fontSize : 16, fontWeight : FontWeight.bold, overflow : TextOverflow.ellipsis)),
                         ],
                       ),
                     ),
-                    SizedBox(height : 16),
+                    Divider(),
                     // 닉네임
                     SizedBox(
                       height : 48,
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment : CrossAxisAlignment.start,
                         children : [
-                          SizedBox(
-                            width : 60,
-                            child: Text("닉네임", style : TextStyle(fontSize : 16)),
-                          ),
-                          SizedBox(width : 16),
-                          Text(info["userNickname"] as String? ?? "", style : TextStyle(fontSize : 16)),
+                          Text("닉네임", style : TextStyle(fontSize : 16)),
+                          Text(info["userNickname"] as String? ?? "", style : TextStyle(fontSize : 16, fontWeight : FontWeight.bold, overflow : TextOverflow.ellipsis)),
                         ],
                       ),
                     ),
-                    SizedBox(height : 16),
+                    Divider(),
                     // 이메일
                     SizedBox(
+                      width : double.infinity,
                       height : 48,
-                      child: Row(
+                      child : Row(
                         mainAxisAlignment : MainAxisAlignment.spaceBetween,
                         children : [
-                          Row(
-                            children : [
-                              SizedBox(
-                                width : 60,
-                                child: Text("이메일", style : TextStyle(fontSize : 16), overflow : TextOverflow.ellipsis),
-                              ),
-                              SizedBox(width : 16),
-                              Tooltip(
-                                triggerMode : TooltipTriggerMode.longPress,
-                                showDuration : Duration(seconds : 3),
-                                message : info["userEmail"] as String? ?? "",
-                                textStyle : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),
-                                decoration : BoxDecoration(color : AppColors.mainColor),
-                                child: SizedBox(
-                                  width : 160,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment : CrossAxisAlignment.start,
+                              children : [
+                                Text("이메일", style : TextStyle(fontSize : 16), overflow : TextOverflow.ellipsis),
+                                Tooltip(
+                                  triggerMode : TooltipTriggerMode.longPress,
+                                  showDuration : Duration(seconds : 3),
+                                  decoration : BoxDecoration(color : AppColors.mainColor, borderRadius : BorderRadius.circular(8.0)),
+                                  textStyle : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),
+                                  message : info["userEmail"] as String? ?? "",
                                   child : Text(
                                     info["userEmail"] as String? ?? "",
-                                    style : TextStyle(
-                                      fontSize : 16,
-                                      overflow : TextOverflow.ellipsis,
-                                    ),
-                                  ),
+                                    style : TextStyle(fontSize : 16, fontWeight : FontWeight.bold), overflow : TextOverflow.ellipsis),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           ElevatedButton(
                             style : ElevatedButton.styleFrom(
@@ -219,27 +209,27 @@ class _UserInfoState extends State<UserInfo> {
                               ),
                             ),
                             onPressed : openEmailPage,
-                            child: Text("수정", style : TextStyle(color : Colors.white)),
+                            child : Text("수정", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height : 16),
+                    Divider(),
                     // 전화번호
                     SizedBox(
                       height : 48,
                       child: Row(
                         mainAxisAlignment : MainAxisAlignment.spaceBetween,
                         children : [
-                          Row(
-                            children : [
-                              SizedBox(
-                                width : 60,
-                                child: Text("전화번호", style : TextStyle(fontSize : 16), overflow : TextOverflow.ellipsis),
-                              ),
-                              SizedBox(width : 16),
-                              Text(info["userPhone"] as String? ?? "", style : TextStyle(fontSize : 16)),
-                            ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment : CrossAxisAlignment.start,
+                              children : [
+                                Text("전화번호", style : TextStyle(fontSize : 16)),
+                                Text(info["userPhone"] as String? ?? "", style : TextStyle(fontSize : 16, fontWeight : FontWeight.bold, overflow : TextOverflow.ellipsis)),
+                              ],
+                            ),
                           ),
                           ElevatedButton(
                             style : ElevatedButton.styleFrom(
@@ -249,7 +239,7 @@ class _UserInfoState extends State<UserInfo> {
                               ),
                             ),
                             onPressed: openPhonePage,
-                            child: Text("수정", style : TextStyle(color : Colors.white)),
+                            child : Text("수정", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
                           ),
                         ],
                       ),
@@ -279,8 +269,8 @@ class _UserInfoState extends State<UserInfo> {
                           borderRadius : BorderRadius.circular(8.0),
                         ),
                       ),
-                      onPressed: openPasswordPage,
-                      child: Text("수정", style : TextStyle(color : Colors.white)),
+                      onPressed : openPasswordPage,
+                      child : Text("수정", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -298,20 +288,40 @@ class _UserInfoState extends State<UserInfo> {
                   ),
                 ),
                 onPressed : () async {
-                  dynamic result = await showDialog(
+                  await showDialog(
                     context : context,
-                    builder : (context) => CustomAlertDialog(
-                      context : context,
-                      title : "로그아웃",
-                      content : "정말로 로그아웃 하시겠습니까?",
-                      isChange : true,
-                      isCancel : true,
+                    builder : (context) => AlertDialog(
+                      backgroundColor : Colors.white,
+                      title : Text("로그아웃"),
+                      content : Text("정말 로그아웃 하시겠습니까?"),
+                      actions : [
+                        ElevatedButton(
+                          style : ElevatedButton.styleFrom(
+                            backgroundColor : AppColors.mainColor,
+                            shape : RoundedRectangleBorder(
+                              borderRadius : BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed : logout,
+                          child : Text("확인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                        ),
+                        ElevatedButton(
+                          style : ElevatedButton.styleFrom(
+                            backgroundColor : Colors.grey,
+                            shape : RoundedRectangleBorder(
+                              borderRadius : BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed : () {
+                            Navigator.pop(context);
+                          },
+                          child : Text("취소", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                        ),
+                      ],
                     ),
                   );
-                  if(result) { return; }
-                  logout();
                 },
-                child : Text("로그아웃", style : TextStyle(color : Colors.white)),
+                child : Text("로그아웃", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
               ),
             ),
             // 회원탈퇴 카드
@@ -346,8 +356,8 @@ class _UserInfoState extends State<UserInfo> {
                             borderRadius : BorderRadius.circular(8.0),
                           ),
                         ),
-                        onPressed: openDeletePage,
-                        child: Text("탈퇴하기", style : TextStyle(color : Colors.white)),
+                        onPressed : openDeletePage,
+                        child : Text("탈퇴하기", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
                       ),
                     ),
                   ],

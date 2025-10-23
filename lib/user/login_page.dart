@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius : BorderRadius.circular(4.0),
                     ),
                   ),
-                  child : Text("로그인", style : TextStyle(color : Colors.white)),
+                  child : Text("로그인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
                 ),
               ),
               SizedBox(height : 16.0),
