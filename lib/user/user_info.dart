@@ -115,13 +115,12 @@ class _UserInfoState extends State<UserInfo> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding : const EdgeInsets.symmetric(horizontal : 32.0),
+        padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 16.0),
         width : double.infinity,
         child: Column(
           mainAxisAlignment : MainAxisAlignment.center,
           crossAxisAlignment : CrossAxisAlignment.center,
           children : [
-            SizedBox(height : 16),
             Card(
               color : Colors.white,
               shape : RoundedRectangleBorder(
