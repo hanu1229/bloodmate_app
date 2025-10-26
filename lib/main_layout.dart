@@ -1,5 +1,7 @@
+import 'package:bloodmate_app/blood/hba1c/create_hba1c_page.dart';
 import 'package:bloodmate_app/blood/hba1c/hba1c_page.dart';
 import 'package:bloodmate_app/blood/pressure/pressure_page.dart';
+import 'package:bloodmate_app/blood/sugar/create_sugar_page.dart';
 import 'package:bloodmate_app/blood/sugar/sugar_page.dart';
 import 'package:bloodmate_app/board/board_page.dart';
 import 'package:bloodmate_app/style/app_color.dart';
@@ -18,6 +20,7 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
 
   int indexNumber = 0;
+  bool _showFAB = true;
   SharedPreferences? ps;
 
   @override
@@ -52,6 +55,8 @@ class _MainLayoutState extends State<MainLayout> {
       backgroundColor : Colors.white,
       appBar : AppBar(
         title : Text("블러드 메이트", style : TextStyle(color : AppColors.mainColor, fontWeight : FontWeight.bold)),
+        backgroundColor : Colors.white,
+        shape : Border(bottom : BorderSide(color : AppColors.mainColor, width : 1)),
         leading : Padding(
           padding: const EdgeInsets.only(top : 8.0, right : 0.0, bottom : 8.0, left : 8.0),
           child: SizedBox(
@@ -60,8 +65,21 @@ class _MainLayoutState extends State<MainLayout> {
               child : Image.asset("assets/images/bloodmate_logo-default.png")
           ),
         ),
-        backgroundColor : Colors.white,
-        shape : Border(bottom : BorderSide(color : AppColors.mainColor, width : 1))
+        actions : [
+          IconButton(
+            onPressed : () async {
+              final token = ps?.getString("token");
+              print("token : $token");
+              if(indexNumber == 0) {
+                bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
+              } else if(indexNumber == 1) {
+                bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
+              }
+            },
+            icon : Icon(Icons.add, color : AppColors.mainColor),
+          ),
+          SizedBox(width : 32),
+        ],
       ),
       body : pages[indexNumber],
       bottomNavigationBar : Container(
@@ -96,14 +114,19 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ),
       ),
-      floatingActionButton : indexNumber == 4 ? null : FloatingActionButton(
-        onPressed : () {
-          final token = ps?.getString("token");
-          print("token : $token");
-        },
-        backgroundColor : AppColors.mainColor,
-        child : Icon(Icons.add, color : Colors.white),
-      ),
+      // floatingActionButton : indexNumber == 4 ? null : _showFAB ? FloatingActionButton(
+      //   onPressed : () async {
+      //     final token = ps?.getString("token");
+      //     print("token : $token");
+      //     if(indexNumber == 0) {
+      //       bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
+      //     } else if(indexNumber == 1) {
+      //       bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
+      //     }
+      //   },
+      //   backgroundColor : AppColors.mainColor,
+      //   child : Icon(Icons.add, color : Colors.white),
+      // ) : null,
     );
   }
 

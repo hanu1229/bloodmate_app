@@ -318,14 +318,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width : 20),
                     SizedBox(
                       child : ElevatedButton(
-                        style : ElevatedButton.styleFrom(
-                          backgroundColor : AppColors.mainColor,
-                          shape : RoundedRectangleBorder(
-                            borderRadius : BorderRadius.circular(8.0),
-                          ),
-                        ),
                         onPressed : checkUserPhone,
-                        child : Text("확인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),),
+                        child : Text("확인"),
                       ),
                     ),
                   ],
@@ -357,14 +351,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width : 20),
                     SizedBox(
                       child : ElevatedButton(
-                        style : ElevatedButton.styleFrom(
-                          backgroundColor : AppColors.mainColor,
-                          shape : RoundedRectangleBorder(
-                            borderRadius : BorderRadius.circular(8.0),
-                          ),
-                        ),
                         onPressed : checkUserNickname,
-                        child : Text("확인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),),
+                        child : Text("확인"),
                       ),
                     ),
                   ],
@@ -396,14 +384,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width : 20),
                     SizedBox(
                       child : ElevatedButton(
-                        style : ElevatedButton.styleFrom(
-                          backgroundColor : AppColors.mainColor,
-                          shape : RoundedRectangleBorder(
-                            borderRadius : BorderRadius.circular(8.0),
-                          ),
-                        ),
                         onPressed : checkUserLoginId,
-                        child : Text("확인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold),),
+                        child : Text("확인"),
                       ),
                     ),
                   ],
@@ -453,10 +435,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   width : double.infinity,
                   child : ElevatedButton(
-                    style : ElevatedButton.styleFrom(
-                      backgroundColor : AppColors.mainColor,
-                      shape : RoundedRectangleBorder(borderRadius : BorderRadius.circular(8.0)),
-                    ),
                     onPressed : () async {
                       String result = await signup();
                       if(result == "전화번호" || result == "닉네임" || result == "아이디" || result == "비밀번호") {
@@ -471,7 +449,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         );
                       }
                     },
-                    child : Text("회원가입", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                    child : Text("회원가입"),
                   ),
                 ),
               ],

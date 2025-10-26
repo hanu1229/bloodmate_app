@@ -96,13 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 width : double.infinity,
                 child: ElevatedButton(
                   onPressed : () { onLogin(context); },
-                  style : ElevatedButton.styleFrom(
-                    backgroundColor : AppColors.mainColor,
-                    shape : RoundedRectangleBorder(
-                      borderRadius : BorderRadius.circular(4.0),
-                    ),
-                  ),
-                  child : Text("로그인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                  child : Text("로그인"),
                 ),
               ),
               SizedBox(height : 16.0),

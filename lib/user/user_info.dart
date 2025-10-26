@@ -231,14 +231,8 @@ class _UserInfoState extends State<UserInfo> {
                             ),
                           ),
                           ElevatedButton(
-                            style : ElevatedButton.styleFrom(
-                              backgroundColor : AppColors.mainColor,
-                              shape : RoundedRectangleBorder(
-                                borderRadius : BorderRadius.circular(8.0),
-                              ),
-                            ),
                             onPressed: openPhonePage,
-                            child : Text("수정", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                            child : Text("수정"),
                           ),
                         ],
                       ),
@@ -262,14 +256,8 @@ class _UserInfoState extends State<UserInfo> {
                   children : [
                     Text("비밀번호", style : TextStyle(fontSize : 16)),
                     ElevatedButton(
-                      style : ElevatedButton.styleFrom(
-                        backgroundColor : AppColors.mainColor,
-                        shape : RoundedRectangleBorder(
-                          borderRadius : BorderRadius.circular(8.0),
-                        ),
-                      ),
                       onPressed : openPasswordPage,
-                      child : Text("수정", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                      child : Text("수정"),
                     ),
                   ],
                 ),
@@ -280,12 +268,6 @@ class _UserInfoState extends State<UserInfo> {
               padding : const EdgeInsets.symmetric(horizontal : 8.0),
               width : double.infinity,
               child: ElevatedButton(
-                style : ElevatedButton.styleFrom(
-                  backgroundColor : AppColors.mainColor,
-                  shape : RoundedRectangleBorder(
-                    borderRadius : BorderRadius.circular(8.0),
-                  ),
-                ),
                 onPressed : () async {
                   await showDialog(
                     context : context,
@@ -295,14 +277,8 @@ class _UserInfoState extends State<UserInfo> {
                       content : Text("정말 로그아웃 하시겠습니까?"),
                       actions : [
                         ElevatedButton(
-                          style : ElevatedButton.styleFrom(
-                            backgroundColor : AppColors.mainColor,
-                            shape : RoundedRectangleBorder(
-                              borderRadius : BorderRadius.circular(8.0),
-                            ),
-                          ),
                           onPressed : logout,
-                          child : Text("확인", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                          child : Text("확인"),
                         ),
                         ElevatedButton(
                           style : ElevatedButton.styleFrom(
@@ -314,13 +290,13 @@ class _UserInfoState extends State<UserInfo> {
                           onPressed : () {
                             Navigator.pop(context);
                           },
-                          child : Text("취소", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                          child : Text("취소"),
                         ),
                       ],
                     ),
                   );
                 },
-                child : Text("로그아웃", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                child : Text("로그아웃"),
               ),
             ),
             // 회원탈퇴 카드
@@ -356,7 +332,7 @@ class _UserInfoState extends State<UserInfo> {
                           ),
                         ),
                         onPressed : openDeletePage,
-                        child : Text("탈퇴하기", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                        child : Text("탈퇴하기"),
                       ),
                     ),
                   ],
