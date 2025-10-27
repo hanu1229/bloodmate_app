@@ -4,15 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeleteSugarPage extends StatefulWidget {
-  final int bloodSugarId;
-  const DeleteSugarPage({super.key, required this.bloodSugarId});
+class DeletePressurePage extends StatefulWidget {
+  final int bloodPressureId;
+  const DeletePressurePage({super.key, required this.bloodPressureId});
 
   @override
-  State<DeleteSugarPage> createState() => _DeleteSugarPageState();
+  State<DeletePressurePage> createState() => _DeletePressurePageState();
 }
 
-class _DeleteSugarPageState extends State<DeleteSugarPage> {
+class _DeletePressurePageState extends State<DeletePressurePage> {
 
   Dio dio = Dio();
   String domain = ServerDomain.domain;
@@ -22,13 +22,13 @@ class _DeleteSugarPageState extends State<DeleteSugarPage> {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
-      final response = await dio.delete("$domain/blood/sugar/${widget.bloodSugarId}", options : Options(headers : {"Authorization" : token}));
+      final response = await dio.delete("$domain/blood/pressure/${widget.bloodPressureId}", options : Options(headers : {"Authorization" : token}));
       if(response.statusCode == 200) {
         await showDialog(
           context : context,
           builder : (context) => CustomAlertDialog(context : context, title : "삭제하기", content : "삭제에 성공했습니다.", isChange : false),
         );
-        Navigator.pop(context, widget.bloodSugarId);
+        Navigator.pop(context, widget.bloodPressureId);
       }
     } on DioException catch(e) {
       if(e.response?.statusCode == 400) {

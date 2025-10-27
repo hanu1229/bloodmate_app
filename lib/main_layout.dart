@@ -65,21 +65,24 @@ class _MainLayoutState extends State<MainLayout> {
               child : Image.asset("assets/images/bloodmate_logo-default.png")
           ),
         ),
-        actions : [
-          IconButton(
-            onPressed : () async {
-              final token = ps?.getString("token");
-              print("token : $token");
-              if(indexNumber == 0) {
-                bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
-              } else if(indexNumber == 1) {
-                bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
-              }
-            },
-            icon : Icon(Icons.add, color : AppColors.mainColor),
-          ),
-          SizedBox(width : 32),
-        ],
+        // actions : [
+        //   IconButton(
+        //     onPressed : () async {
+        //       final token = ps?.getString("token");
+        //       print("token : $token");
+        //       if(indexNumber == 0) {
+        //         bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
+        //         if(result != null && result == true) {
+        //           // 이곳으로....
+        //         }
+        //       } else if(indexNumber == 1) {
+        //         bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
+        //       }
+        //     },
+        //     icon : Icon(Icons.add, color : AppColors.mainColor),
+        //   ),
+        //   SizedBox(width : 12),
+        // ],
       ),
       body : pages[indexNumber],
       bottomNavigationBar : Container(

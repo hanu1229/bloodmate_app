@@ -23,7 +23,7 @@ class _CreateHba1cPageState extends State<CreateHba1cPage> {
   TextEditingController nextController = TextEditingController();
 
   
-  // 데이터 작성하기
+  // 당화혈색소 데이터 작성하기
   Future<void> writeData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -37,8 +37,14 @@ class _CreateHba1cPageState extends State<CreateHba1cPage> {
       if(response.statusCode == 201) {
         await showDialog(
           context : context,
-          builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "작성에 성공했습니다.", isChange : true)
+          builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "작성에 성공했습니다.", isChange : false)
         );
+        final result = {
+          "measuredAt" : "${dateController.text}T${timeController.text}",
+          "nextTestAt" : nextController.text,
+          "hba1cValue" : valueController.text
+        };
+        Navigator.pop(context, result);
       }
     } on DioException catch(e) {
       if(e.response?.statusCode == 400) {

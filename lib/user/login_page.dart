@@ -1,3 +1,4 @@
+import 'package:bloodmate_app/main_layout.dart';
 import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
 import 'package:bloodmate_app/user/search_id_page.dart';
@@ -33,10 +34,10 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final response = await dio.post("${ServerDomain.domain}/user/login", data : {"userLoginId" : id, "userPassword" : pwd});
       if(response.statusCode == 200) {
-        SharedPreferences sp = await SharedPreferences.getInstance();
-        await sp.setString("token", response.data);
-        print(sp.getString("token"));
-        Navigator.pop(context);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("token", response.data);
+        print(prefs.getString("token"));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder : (context) => MainLayout()));
       }
     } catch(e) {
       setState(() {

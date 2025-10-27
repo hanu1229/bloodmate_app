@@ -5,34 +5,22 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UpdateSugarPage extends StatefulWidget {
-  final int bloodSugarId;
-  final int bloodSugarValue;
-  final String date;
-  final String time;
-  final int measurementContextId;
-  final String measurementContextLabel;
-  const UpdateSugarPage({
-    super.key,
-    required this.bloodSugarId,
-    required this.bloodSugarValue,
-    required this.date,
-    required this.time,
-    required this.measurementContextId,
-    required this.measurementContextLabel
-  });
+class CreatePressurePage extends StatefulWidget {
+  const CreatePressurePage({super.key});
 
   @override
-  State<UpdateSugarPage> createState() => _UpdateSugarPageState();
+  State<CreatePressurePage> createState() => _CreatePressurePageState();
 }
 
-class _UpdateSugarPageState extends State<UpdateSugarPage> {
+class _CreatePressurePageState extends State<CreatePressurePage> {
   Dio dio = Dio();
   String domain = ServerDomain.domain;
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  TextEditingController valueController = TextEditingController();
+  TextEditingController systolicController = TextEditingController();
+  TextEditingController diastolicController = TextEditingController();
+  TextEditingController pulseController = TextEditingController();
   TextEditingController contextController = TextEditingController();
 
   // 측정 상황 리스트
@@ -69,27 +57,30 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
     }
   }
 
-  // 혈당 데이터 수정하기
-  Future<void> updateData() async {
+
+  // 혈당 데이터 작성하기
+  Future<void> writeData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
       final data = {
-        "bloodSugarValue" : int.parse(valueController.text),
+        "bloodPressureSystolic" : int.parse(systolicController.text),
+        "bloodPressureDiastolic" : int.parse(diastolicController.text),
+        "bloodPressurePulse" : int.parse(pulseController.text),
         "measuredAt" : "${dateController.text}T${timeController.text}",
         "measurementContextId" : int.parse(selectContext.toString()),
       };
-      final response = await dio.put("$domain/blood/sugar/${widget.bloodSugarId}", data : data, options : Options(headers : {"Authorization" : token}));
-      if(response.statusCode == 200) {
+      final response = await dio.post("$domain/blood/pressure", data : data, options : Options(headers : {"Authorization" : token}));
+      if(response.statusCode == 201) {
         await showDialog(
             context : context,
-            builder : (context) => CustomAlertDialog(context : context, title : "수정하기", content : "수정에 성공했습니다.", isChange : false)
+            builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "작성에 성공했습니다.", isChange : false)
         );
         final result = {
-          "bloodSugarId" : widget.bloodSugarId,
-          "date" : dateController.text,
-          "time" : timeController.text,
-          "bloodSugarValue" : valueController.text,
+          "bloodPressureSystolic" : int.parse(systolicController.text),
+          "bloodPressureDiastolic" : int.parse(diastolicController.text),
+          "bloodPressurePulse" : int.parse(pulseController.text),
+          "measuredAt" : "${dateController.text}T${timeController.text}",
           "measurementContextId" : selectContext,
           "measurementContextLabel" : contextController.text
         };
@@ -99,7 +90,7 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
       if(e.response?.statusCode == 400) {
         await showDialog(
             context : context,
-            builder : (context) => CustomAlertDialog(context : context, title : "수정하기", content : "수정에 실패했습니다.", isChange : false)
+            builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "작성에 실패했습니다.", isChange : false)
         );
       }
     }
@@ -109,18 +100,12 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    dateController.text = widget.date;
-    timeController.text = widget.time;
-    valueController.text = widget.bloodSugarValue.toString();
-    contextController.text = widget.measurementContextLabel;
-
-    selectContext = widget.measurementContextId.toString();
-
-    print("date : ${dateController.text}");
-    print("time : ${timeController.text}");
-    print("value1 : ${valueController.text}");
-    print("contextId : $selectContext");
-    print("contextLabel : ${contextController.text}");
+    dateController = TextEditingController();
+    timeController = TextEditingController();
+    systolicController = TextEditingController();
+    diastolicController = TextEditingController();
+    pulseController = TextEditingController();
+    contextController = TextEditingController();
     readContext();
   }
 
@@ -129,7 +114,7 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
     return Scaffold(
       backgroundColor : Colors.white,
       appBar : AppBar(
-        title : Text("혈당 수정하기"),
+        title : Text("혈압 작성하기"),
         backgroundColor : Colors.white,
       ),
       body : SafeArea(
@@ -254,16 +239,16 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
                   ),
                 ),
 
-                // 혈당 수치
+                // 혈압 수축 수치
                 Container(
                   padding : const EdgeInsets.only(bottom : 8),
-                  child : Text("혈당 수치", style : TextStyle(fontSize : 16)),
+                  child : Text("혈압 수축 수치", style : TextStyle(fontSize : 16)),
                 ),
                 Container(
                   padding : const EdgeInsets.only(bottom : 8),
                   child : TextField(
-                    controller : valueController,
-                    keyboardType : TextInputType.number,
+                    controller : systolicController,
+                    keyboardType : TextInputType.numberWithOptions(decimal : true),
                     decoration : InputDecoration(
                       enabledBorder : OutlineInputBorder(
                         borderSide : BorderSide(color : AppColors.mainColor, width : 1),
@@ -272,21 +257,73 @@ class _UpdateSugarPageState extends State<UpdateSugarPage> {
                         borderSide : BorderSide(color : AppColors.mainColor, width : 2),
                       ),
                       suffixIcon : Padding(
-                        padding : const EdgeInsets.all(12),
-                        child : Text("mg/dL", style : TextStyle(color : AppColors.mainColor, fontSize : 16, fontWeight : FontWeight.bold)),
+                        padding : const EdgeInsets.only(right: 16),
+                        child : Text("mmHg", style: TextStyle(color: AppColors.mainColor, fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
                       suffixIconConstraints : BoxConstraints(minHeight : 0, minWidth : 0),
                     ),
                   ),
                 ),
 
-                // 수정하기 버튼
+                // 혈압 이완 수치
+                Container(
+                  padding : const EdgeInsets.only(bottom : 8),
+                  child : Text("혈압 이완 수치", style : TextStyle(fontSize : 16)),
+                ),
+                Container(
+                  padding : const EdgeInsets.only(bottom : 8),
+                  child : TextField(
+                    controller : diastolicController,
+                    keyboardType : TextInputType.numberWithOptions(decimal : true),
+                    decoration : InputDecoration(
+                      enabledBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 1),
+                      ),
+                      focusedBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 2),
+                      ),
+                      suffixIcon : Padding(
+                        padding : const EdgeInsets.only(right: 16),
+                        child : Text("mmHg", style: TextStyle(color: AppColors.mainColor, fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                      suffixIconConstraints : BoxConstraints(minHeight : 0, minWidth : 0),
+                    ),
+                  ),
+                ),
+
+                // 심박수 수치
+                Container(
+                  padding : const EdgeInsets.only(bottom : 8),
+                  child : Text("심박수", style : TextStyle(fontSize : 16)),
+                ),
+                Container(
+                  padding : const EdgeInsets.only(bottom : 8),
+                  child : TextField(
+                    controller : pulseController,
+                    keyboardType : TextInputType.numberWithOptions(decimal : true),
+                    decoration : InputDecoration(
+                      enabledBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 1),
+                      ),
+                      focusedBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 2),
+                      ),
+                      suffixIcon : Padding(
+                        padding : const EdgeInsets.only(right: 16),
+                        child : Text("회", style: TextStyle(color: AppColors.mainColor, fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                      suffixIconConstraints : BoxConstraints(minHeight : 0, minWidth : 0),
+                    ),
+                  ),
+                ),
+
+                // 작성하기 버튼
                 Container(
                   padding : const EdgeInsets.only(top : 8),
                   width : double.infinity,
                   child : ElevatedButton(
-                    onPressed : updateData,
-                    child : Text("수정하기"),
+                    onPressed : writeData,
+                    child : Text("작성하기"),
                   ),
                 ),
               ],
