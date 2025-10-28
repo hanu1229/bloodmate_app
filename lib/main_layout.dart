@@ -1,9 +1,9 @@
-import 'package:bloodmate_app/blood/hba1c/create_hba1c_page.dart';
 import 'package:bloodmate_app/blood/hba1c/hba1c_page.dart';
 import 'package:bloodmate_app/blood/pressure/pressure_page.dart';
-import 'package:bloodmate_app/blood/sugar/create_sugar_page.dart';
 import 'package:bloodmate_app/blood/sugar/sugar_page.dart';
 import 'package:bloodmate_app/board/board_page.dart';
+import 'package:bloodmate_app/dashboard_page.dart';
+import 'package:bloodmate_app/more_page.dart';
 import 'package:bloodmate_app/style/app_color.dart';
 import 'package:bloodmate_app/user/login_page.dart';
 import 'package:bloodmate_app/user/user_info.dart';
@@ -37,16 +37,16 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   final List<Widget> pages = [
-    // 당화혈색소 페이지 --> 0
+    // 대시보드(홈) 페이지 --> 0
+    DashboardPage(),
+    // 당화혈색소 페이지 --> 1
     Hba1cPage(),
-    // 혈당 페이지 --> 1
+    // 혈당 페이지 --> 2
     SugarPage(),
-    // 혈압 페이지 --> 2
+    // 혈압 페이지 --> 3
     PressurePage(),
-    // 게시판 페이지 --> 3
-    BoardPage(),
-    // 내정보 페이지 --> 4
-    UserInfo(),
+    // 더보기 페이지 --> 4
+    MorePage(),
   ];
 
   @override
@@ -95,20 +95,22 @@ class _MainLayoutState extends State<MainLayout> {
             onTap : (index) => setState(() {
               indexNumber = index;
               print("index : $indexNumber");
-              if(indexNumber == 4) {
-                final token = ps?.getString("token");
-                if(token == null || token.isEmpty) {
-                  indexNumber = 0;
-                  Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
-                }
-              }
+              // if(indexNumber == 4) {
+              //   final token = ps?.getString("token");
+              //   if(token == null || token.isEmpty) {
+              //     indexNumber = 0;
+              //     Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
+              //   }
+              // }
             }),
             items : [
-              BottomNavigationBarItem(icon : Icon(Icons.percent),label : "당화혈색소", tooltip : "당화혈색소"), 
-              BottomNavigationBarItem(icon : Icon(Icons.water_drop),label : "혈당", tooltip : "혈당"),
-              BottomNavigationBarItem(icon : Icon(Icons.monitor_heart),label : "혈압", tooltip : "혈압"),
-              BottomNavigationBarItem(icon : Icon(Icons.article),label : "게시판", tooltip : "게시판"),
-              BottomNavigationBarItem(icon : Icon(Icons.person),label : "내정보", tooltip : "내정보"),
+              BottomNavigationBarItem(icon : Icon(Icons.home), label : "대시보드", tooltip : "대시보드"),
+              BottomNavigationBarItem(icon : Icon(Icons.percent), label : "당화혈색소", tooltip : "당화혈색소"),
+              BottomNavigationBarItem(icon : Icon(Icons.water_drop), label : "혈당", tooltip : "혈당"),
+              BottomNavigationBarItem(icon : Icon(Icons.monitor_heart), label : "혈압", tooltip : "혈압"),
+              // BottomNavigationBarItem(icon : Icon(Icons.article), label : "게시판", tooltip : "게시판"),
+              BottomNavigationBarItem(icon : Icon(Icons.list), label : "더보기", tooltip : "더보기"),
+              // BottomNavigationBarItem(icon : Icon(Icons.person), label : "내정보", tooltip : "내정보"),
             ],
             type : BottomNavigationBarType.fixed,
             selectedItemColor : AppColors.mainColor,

@@ -101,7 +101,7 @@ class _SugarPageState extends State<SugarPage> {
             Column(
               children : [
                 Container(
-                  padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+                  margin : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
                   width : double.infinity,
                   child : ElevatedButton(
                     onPressed : () async {

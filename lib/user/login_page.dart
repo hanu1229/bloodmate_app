@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body : SafeArea(
         child: Container(
-          padding : const EdgeInsets.symmetric(vertical : 16.0, horizontal : 32.0),
+          padding : const EdgeInsets.symmetric(vertical : 8.0, horizontal : 32.0),
           color : Colors.white,
           width : double.infinity,
           child: Column(
