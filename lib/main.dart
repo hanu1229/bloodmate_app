@@ -23,11 +23,13 @@ class BloodMate extends StatelessWidget {
       locale: const Locale('ko'),
       theme : ThemeData(
         useMaterial3 : true,
+        scaffoldBackgroundColor : Colors.white,
         // body 스크롤 시 AppBar 색상 변경 되는 현상 방지
         appBarTheme : AppBarTheme(
           scrolledUnderElevation : 0,
           surfaceTintColor : Colors.transparent,
           elevation : 0,
+          backgroundColor : Colors.white,
         ),
         datePickerTheme : DatePickerThemeData(
           backgroundColor : Colors.white,
