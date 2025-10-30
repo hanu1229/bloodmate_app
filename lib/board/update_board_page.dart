@@ -7,15 +7,24 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CreateBoardPage extends StatefulWidget {
-  const CreateBoardPage({super.key});
+class UpdateBoardPage extends StatefulWidget {
+  final int boardPostId;
+  final String boardCategoryTitle;
+  final String boardPostTitle;
+  final String boardPostContent;
+  const UpdateBoardPage({
+    super.key,
+    required this.boardPostId,
+    required this.boardCategoryTitle,
+    required this.boardPostTitle,
+    required this.boardPostContent,
+  });
 
   @override
-  State<CreateBoardPage> createState() => _CreateBoardPageState();
+  State<UpdateBoardPage> createState() => _UpdateBoardPageState();
 }
 
-class _CreateBoardPageState extends State<CreateBoardPage> {
-
+class _UpdateBoardPageState extends State<UpdateBoardPage> {
   Dio dio = Dio();
   String domain = ServerDomain.domain;
 
@@ -39,35 +48,49 @@ class _CreateBoardPageState extends State<CreateBoardPage> {
     );
   }
 
-  // 게시물 작성
-  Future<String?> writePost() async {
+  // 게시물 정보 가져오기
+  Future<void> findPost() async {
+    try {
+      final response = await dio.get("$domain/board/${widget.boardPostId}");
+      if(response.statusCode == 200) {
+        final data = response.data;
+        setState(() {
+          contextController.text = data["boardCategoryTitle"];
+          titleController.text = data["boardPostTitle"];
+          contentController.text = htmlToPlain(data["boardPostContent"]);
+        });
+      }
+    } on DioException catch(e) {
+
+    }
+  }
+
+  // 게시물 수정
+  Future<void> updatePost() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
-      if(token == null) { return null; }
+      if(token == null) { return; }
       final data = {
         "boardCategoryTitle" : contextController.text,
         "boardPostTitle" : titleController.text,
         "boardPostContent" : toHtmlWithBr(contentController.text),
       };
-      if(data["boardCategoryTitle"] == "공지") { return "공지"; }
-      final response = await dio.post("$domain/board", data : data, options : Options(headers : {"Authorization" : token}));
-      if(response.statusCode == 201) {
+      final response = await dio.put("$domain/board/${widget.boardPostId}", data : data, options : Options(headers : {"Authorization" : token}));
+      if(response.statusCode == 200) {
         await showDialog(
           context : context,
-          builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "게시물을 정상적으로 작성했습니다.", isChange : false),
+          builder : (context) => CustomAlertDialog(context : context, title : "수정하기", content : "게시물을 정상적으로 수정했습니다.", isChange : false),
         );
         Navigator.pop(context, true);
       }
-      return null;
     } on DioException catch(e) {
       if(e.response?.statusCode == 400) {
         await showDialog(
           context : context,
-          builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "게시물을 작성하지 못했습니다.", isChange : false),
+          builder : (context) => CustomAlertDialog(context : context, title : "수정하기", content : "게시물을 수정하지 못했습니다.", isChange : false),
         );
       }
-      return null;
     }
   }
 
@@ -80,11 +103,24 @@ class _CreateBoardPageState extends State<CreateBoardPage> {
     categoryList.add(makeMenuEntry(value : "5", label : "운동"));
   }
 
+  // HTML → TextField (\n)
+  String htmlToPlain(String html) {
+    String s = html;
+    // <br>, <br/>, <br /> → \n  (대소문자 무시)
+    s = s.replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n');
+    // </p><p> → 빈 줄 하나  (문단 경계)
+    s = s.replaceAll(RegExp(r'</p>\s*<p>', caseSensitive: false), '\n\n');
+    // 남은 <p>, </p> 제거
+    s = s.replaceAll(RegExp(r'</?p>', caseSensitive: false), '');
+    // &nbsp; → 공백
+    s = s.replaceAll('&nbsp;', ' ');
+    return s;
+  }
+
   String toHtmlWithBr(String plain) {
     // XSS 대비: 내용은 먼저 이스케이프
-    // final escaped = const HtmlEscape(HtmlEscapeMode.element).convert(plain);
-    // return escaped.replaceAll(RegExp(r'\r\n?|\n'), '<br/>');
-    return plain.replaceAll(RegExp(r'\r\n?|\n'), '<br/>');
+    final escaped = const HtmlEscape(HtmlEscapeMode.element).convert(plain);
+    return escaped.replaceAll(RegExp(r'\r\n?|\n'), '<br/>');
   }
 
 
@@ -95,6 +131,10 @@ class _CreateBoardPageState extends State<CreateBoardPage> {
     contentFocusNode.unfocus();
     // readContext();
     readCategory();
+    findPost();
+    // contextController.text = widget.boardCategoryTitle;
+    // titleController.text = widget.boardPostTitle;
+    // contentController.text = widget.boardPostContent;
   }
 
   @override
@@ -194,20 +234,12 @@ class _CreateBoardPageState extends State<CreateBoardPage> {
                 ),
                 SizedBox(height : 8),
 
-                // 작성하기
+                // 수정하기
                 SizedBox(
                   width : double.infinity,
                   child : ElevatedButton(
-                    onPressed : () async {
-                      String? result = await writePost();
-                      if(result != null && result == "공지") {
-                        await showDialog(
-                          context : context,
-                          builder : (context) => CustomAlertDialog(context : context, title : "작성하기", content : "공지 게시물은 작성이 불가능합니다.", isChange : false),
-                        );
-                      }
-                    },
-                    child : Text("작성하기"),
+                    onPressed : updatePost,
+                    child : Text("수정하기"),
                   ),
                 ),
               ],
@@ -218,4 +250,3 @@ class _CreateBoardPageState extends State<CreateBoardPage> {
     );
   }
 }
-

@@ -85,6 +85,23 @@ class _BoardPageState extends State<BoardPage> {
     print(postList);
   }
 
+  //
+  Future<void> refresh() async {
+    setState(() {
+      noticeList.clear();
+      otherList.clear();
+      postList.clear();
+    });
+    await findNotices();
+    await findData(boardCategoryTitle : selectCategory);
+    setState(() {
+      if(selectCategory != "공지") {
+        postList.addAll(noticeList);
+      }
+      postList.addAll(otherList);
+    });
+  }
+
   Widget customListTile({required String title, required String categoryTitle, required Icon icon}) {
     return ListTile(
       leading : icon,
@@ -140,7 +157,34 @@ class _BoardPageState extends State<BoardPage> {
                 decoration : BoxDecoration(
                   border : Border(top : BorderSide(color : Colors.black26, width : 1), bottom : BorderSide(color : Colors.black26, width : 1)),
                 ),
-                child: Text(selectCategory, style : TextStyle(fontSize : 20, fontWeight : FontWeight.bold)),
+                child: Row(
+                  mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                  children : [
+                    Text(selectCategory, style : TextStyle(fontSize : 20, fontWeight : FontWeight.bold)),
+                    SizedBox(
+                      width : 40,
+                      height : 40,
+                      child : IconButton(
+                        onPressed : () async {
+                          setState(() {
+                            noticeList.clear();
+                            otherList.clear();
+                            postList.clear();
+                          });
+                          await findNotices();
+                          await findData(boardCategoryTitle : selectCategory);
+                          setState(() {
+                            if(selectCategory != "공지") {
+                              postList.addAll(noticeList);
+                            }
+                            postList.addAll(otherList);
+                          });
+                        },
+                        icon : Icon(Icons.refresh, size : 24),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child : ListView.builder(
@@ -181,6 +225,21 @@ class _BoardPageState extends State<BoardPage> {
                               ),
                             ),
                           );
+                          if(result != null && result == true) {
+                            setState(() {
+                              noticeList.clear();
+                              otherList.clear();
+                              postList.clear();
+                            });
+                            await findNotices();
+                            await findData(boardCategoryTitle : selectCategory);
+                            setState(() {
+                              if(selectCategory != "공지") {
+                                postList.addAll(noticeList);
+                              }
+                              postList.addAll(otherList);
+                            });
+                          }
                         },
                       ),
                     );
@@ -219,7 +278,11 @@ class _BoardPageState extends State<BoardPage> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 final token = prefs.getString("token");
                 if(token != null) {
-                  Navigator.push(context, MaterialPageRoute(builder : (context) => CreateBoardPage()));
+                  final result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateBoardPage()));
+                  if(result != null && result == true) {
+                    Navigator.pop(context);
+                    refresh();
+                  }
                 } else {
                   Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
                 }
