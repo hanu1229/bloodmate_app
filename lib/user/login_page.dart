@@ -1,8 +1,8 @@
 import 'package:bloodmate_app/main_layout.dart';
 import 'package:bloodmate_app/server_domain.dart';
 import 'package:bloodmate_app/style/app_color.dart';
-import 'package:bloodmate_app/user/search_id_page.dart';
-import 'package:bloodmate_app/user/search_pwd_page.dart';
+import 'package:bloodmate_app/user/find_id_page.dart';
+import 'package:bloodmate_app/user/find_password_page.dart';
 import 'package:bloodmate_app/user/signup_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+  FocusNode pwdFocusNode = FocusNode();
 
   Future<void> onLogin(BuildContext context) async {
     String id = idController.text;
@@ -77,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               // 비밀번호 텍스트 필드
               TextField(
                 controller : pwdController,
+                focusNode : pwdFocusNode,
                 obscureText : _visibility,
                 decoration : InputDecoration(
                   border : OutlineInputBorder(),
@@ -104,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment : MainAxisAlignment.spaceEvenly,
                 children : [
+                  // 회원가입
                   GestureDetector(
                     onTap : () {
                       Navigator.push(context, MaterialPageRoute(builder : (context) => SignUpPage()));
@@ -111,16 +114,26 @@ class _LoginPageState extends State<LoginPage> {
                     child : Text("회원가입")
                   ),
                   Text("|"),
+                  // 아이디 찾기
                   GestureDetector(
-                      onTap : () {
-                        Navigator.push(context, MaterialPageRoute(builder : (context) => SearchIdPage()));
+                      onTap : () async {
+                        final result = await Navigator.push(context, MaterialPageRoute(builder : (context) => FindIdPage()));
+                        if(result != null) {
+                          setState(() {
+                            idController.text = "";
+                            idController.text = result;
+                            // 포커스 주기
+                            pwdFocusNode.requestFocus();
+                          });
+                        }
                       },
                       child : Text("아이디 찾기")
                   ),
                   Text("|"),
+                  // 비밀번호 찾기
                   GestureDetector(
                       onTap : () {
-                        Navigator.push(context, MaterialPageRoute(builder : (context) => SearchPwdPage()));
+                        Navigator.push(context, MaterialPageRoute(builder : (context) => FindPasswordPage()));
                       },
                       child : Text("비밀번호 찾기")
                   ),
