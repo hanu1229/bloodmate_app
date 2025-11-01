@@ -81,7 +81,6 @@ class _DashboardPageState extends State<DashboardPage> {
   // 혈압 최소, 최대, 평균 불러오기
   Future<void> findPressureAverage() async {
     try {
-      print("여기 들어옴1");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
       final response = await dio.get(
@@ -90,7 +89,6 @@ class _DashboardPageState extends State<DashboardPage> {
         options : Options(headers : {"Authorization" : token}),
       );
       if(response.statusCode == 200) {
-        print("여기 들어옴2");
         setState(() { pressureData = response.data; });
         print(response.data);
       }
