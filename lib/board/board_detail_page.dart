@@ -32,7 +32,7 @@ class _BoardDetailPageState extends State<BoardDetailPage> {
   WebViewController controller = WebViewController();
   TextEditingController commentController = TextEditingController();
 
-  // 게시물 상세정보 불러오기
+  /// 게시물 상세정보 불러오기
   Future<void> findDetail() async {
     try {
       final response = await dio.get("$domain/board/${widget.boardPostId}");
@@ -52,7 +52,7 @@ class _BoardDetailPageState extends State<BoardDetailPage> {
     }
   }
 
-  // 게시물 작성자 확인
+  /// 게시물 작성자 확인
   Future<bool> checkWriter({required int boardPostId}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -88,14 +88,14 @@ class _BoardDetailPageState extends State<BoardDetailPage> {
       body : info.isNotEmpty ?
               SafeArea(
                 child : Container(
-                  padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+                  padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
                   width : double.infinity,
                   child : Column(
                     children : [
                       Card(
                         shape : RoundedRectangleBorder(
                           borderRadius : BorderRadius.circular(8.0),
-                          side : BorderSide(color : Colors.grey),
+                          side : BorderSide(color : AppColors.mainColor),
                         ),
                         color : Color(0xFFFBFCFE),
                         child : Container(
@@ -214,18 +214,21 @@ class _BoardDetailPageState extends State<BoardDetailPage> {
                         child : Card(
                           shape : RoundedRectangleBorder(
                             borderRadius : BorderRadius.circular(8.0),
-                            side : BorderSide(color : Colors.grey),
+                            side : BorderSide(color : AppColors.mainColor),
                           ),
                           color : Color(0xFFFBFCFE),
-                          child : WebViewWidget(
-                            controller : controller,
+                          child : Container(
+                            padding : const EdgeInsets.symmetric(horizontal : 8.0, vertical : 8.0),
+                            child : WebViewWidget(
+                              controller : controller,
+                            ),
                           ),
                         ),
                       ),
                       Card(
                         shape : RoundedRectangleBorder(
                           borderRadius : BorderRadius.circular(8.0),
-                          side : BorderSide(color : Colors.grey),
+                          side : BorderSide(color : AppColors.mainColor),
                         ),
                         color : Color(0xFFFBFCFE),
                         child : Container(

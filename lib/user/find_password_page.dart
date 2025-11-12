@@ -28,7 +28,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController checkPasswordController = TextEditingController();
 
-  // 인증번호 발송
+  /// 인증번호 발송
   Future<void> getCode() async {
     try {
       final data = {
@@ -54,7 +54,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
     }
   }
 
-  // 인증번호 확인
+  /// 인증번호 확인
   Future<void> sendCode() async {
     try {
       final data = {
@@ -81,7 +81,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
     }
   }
 
-  // 비밀번호 찾기
+  /// 비밀번호 찾기
   Future<void> findPassword() async {
     try {
       final data = {
@@ -111,7 +111,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
     }
   }
 
-  // 비밀번호 재설정
+  /// 비밀번호 재설정
   Future<void> resetPassword() async {
     try {
       if(passwordController.text != checkPasswordController.text) {
@@ -146,7 +146,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
     }
   }
 
-  // 비밀번호 재설정 페이지 위젯
+  /// 비밀번호 재설정 페이지 위젯
   Widget resetPasswordWidget() {
     return Column(
       children : [
@@ -228,12 +228,13 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar : AppBar(
         title : Text("비밀번호 찾기"),
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+          padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
           width : double.infinity,
           child : _isCheck ? resetPasswordWidget() : Column(
             crossAxisAlignment : CrossAxisAlignment.start,

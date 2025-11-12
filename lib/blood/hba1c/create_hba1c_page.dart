@@ -23,7 +23,7 @@ class _CreateHba1cPageState extends State<CreateHba1cPage> {
   TextEditingController nextController = TextEditingController();
 
   
-  // 당화혈색소 데이터 작성하기
+  /// 당화혈색소 데이터 작성하기
   Future<void> writeData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -66,7 +66,7 @@ class _CreateHba1cPageState extends State<CreateHba1cPage> {
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 16.0),
+          padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 16.0),
           width : double.infinity,
           child : Column(
             crossAxisAlignment : CrossAxisAlignment.start,

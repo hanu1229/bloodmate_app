@@ -30,7 +30,7 @@ class _UserInfoState extends State<UserInfo> {
     loadInfo();
   }
 
-  // 이메일 수정 페이지
+  /// 이메일 수정 페이지
   void openEmailPage() async {
     final result = await Navigator.push(
         context,
@@ -41,7 +41,7 @@ class _UserInfoState extends State<UserInfo> {
     }
   }
 
-  // 전화번호 수정 페이지
+  /// 전화번호 수정 페이지
   void openPhonePage() async {
     final result = await Navigator.push(
       context,
@@ -52,7 +52,7 @@ class _UserInfoState extends State<UserInfo> {
     }
   }
 
-  // 비밀번호 수정 페이지
+  /// 비밀번호 수정 페이지
   void openPasswordPage() async {
     final result = await Navigator.push(
         context,
@@ -63,7 +63,7 @@ class _UserInfoState extends State<UserInfo> {
     }
   }
 
-  // 회원 탈퇴 페이지
+  /// 회원 탈퇴 페이지
   void openDeletePage() async {
     final result = await Navigator.push(
       context,
@@ -76,7 +76,7 @@ class _UserInfoState extends State<UserInfo> {
     }
   }
 
-  // 로그아웃
+  /// 로그아웃
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
@@ -92,7 +92,7 @@ class _UserInfoState extends State<UserInfo> {
     Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => MainLayout() ));
   }
 
-  // 내정보 로드
+  /// 내정보 로드
   Future<void> loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token");
@@ -122,7 +122,7 @@ class _UserInfoState extends State<UserInfo> {
       body : SafeArea(
         child : SingleChildScrollView(
           child : Container(
-            padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+            padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
             width : double.infinity,
             child : Column(
               mainAxisAlignment : MainAxisAlignment.center,

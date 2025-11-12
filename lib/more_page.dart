@@ -22,7 +22,8 @@ class _MorePageState extends State<MorePage> {
     super.initState();
     checkLogin();
   }
-
+  
+  /// 로그인 확인
   Future<void> checkLogin () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token  = prefs.getString("token");

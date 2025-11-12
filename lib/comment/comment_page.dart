@@ -28,12 +28,12 @@ class _CommentPageState extends State<CommentPage> {
   TextEditingController commentController = TextEditingController();
   FocusNode focusNode = FocusNode();
 
-  // 댓글 리스트
+  /// 댓글 리스트
   List<dynamic> commentList = [];
-  // 댓글 정렬
+  /// 댓글 정렬
   String selectSort = "DESC";
   
-  // 댓글 작성하기
+  /// 댓글 작성하기
   Future<void> writeComment() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,7 +58,7 @@ class _CommentPageState extends State<CommentPage> {
     }
   }
 
-  // 댓글 새로고침
+  /// 댓글 새로고침
   Future<void> findComment({required String sort}) async {
     try {
       final response = await dio.get("$domain/board/comment/${widget.boardPostId}", queryParameters : {"sort" : sort});
@@ -74,7 +74,7 @@ class _CommentPageState extends State<CommentPage> {
     }
   }
   
-  // 댓글 작성자 확인
+  /// 댓글 작성자 확인
   Future<bool> checkWriter({required int commentId}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -103,6 +103,7 @@ class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar : AppBar(
         title : Text("댓글창"),
         actions : [
@@ -119,7 +120,7 @@ class _CommentPageState extends State<CommentPage> {
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+          padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
           width : double.infinity,
           child : Column(
             children : [

@@ -65,24 +65,6 @@ class _MainLayoutState extends State<MainLayout> {
               child : Image.asset("assets/images/bloodmate_logo-default.png")
           ),
         ),
-        // actions : [
-        //   IconButton(
-        //     onPressed : () async {
-        //       final token = ps?.getString("token");
-        //       print("token : $token");
-        //       if(indexNumber == 0) {
-        //         bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
-        //         if(result != null && result == true) {
-        //           // 이곳으로....
-        //         }
-        //       } else if(indexNumber == 1) {
-        //         bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
-        //       }
-        //     },
-        //     icon : Icon(Icons.add, color : AppColors.mainColor),
-        //   ),
-        //   SizedBox(width : 12),
-        // ],
       ),
       body : pages[indexNumber],
       bottomNavigationBar : Container(
@@ -95,22 +77,13 @@ class _MainLayoutState extends State<MainLayout> {
             onTap : (index) => setState(() {
               indexNumber = index;
               print("index : $indexNumber");
-              // if(indexNumber == 4) {
-              //   final token = ps?.getString("token");
-              //   if(token == null || token.isEmpty) {
-              //     indexNumber = 0;
-              //     Navigator.push(context, MaterialPageRoute(builder : (context) => LoginPage()));
-              //   }
-              // }
             }),
             items : [
               BottomNavigationBarItem(icon : Icon(Icons.home), label : "대시보드", tooltip : "대시보드"),
               BottomNavigationBarItem(icon : Icon(Icons.percent), label : "당화혈색소", tooltip : "당화혈색소"),
               BottomNavigationBarItem(icon : Icon(Icons.water_drop), label : "혈당", tooltip : "혈당"),
               BottomNavigationBarItem(icon : Icon(Icons.monitor_heart), label : "혈압", tooltip : "혈압"),
-              // BottomNavigationBarItem(icon : Icon(Icons.article), label : "게시판", tooltip : "게시판"),
               BottomNavigationBarItem(icon : Icon(Icons.list), label : "더보기", tooltip : "더보기"),
-              // BottomNavigationBarItem(icon : Icon(Icons.person), label : "내정보", tooltip : "내정보"),
             ],
             type : BottomNavigationBarType.fixed,
             selectedItemColor : AppColors.mainColor,
@@ -119,19 +92,6 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ),
       ),
-      // floatingActionButton : indexNumber == 4 ? null : _showFAB ? FloatingActionButton(
-      //   onPressed : () async {
-      //     final token = ps?.getString("token");
-      //     print("token : $token");
-      //     if(indexNumber == 0) {
-      //       bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateHba1cPage()));
-      //     } else if(indexNumber == 1) {
-      //       bool? result = await Navigator.push(context, MaterialPageRoute(builder : (context) => CreateSugarPage()));
-      //     }
-      //   },
-      //   backgroundColor : AppColors.mainColor,
-      //   child : Icon(Icons.add, color : Colors.white),
-      // ) : null,
     );
   }
 

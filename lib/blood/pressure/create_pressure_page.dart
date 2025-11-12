@@ -23,12 +23,12 @@ class _CreatePressurePageState extends State<CreatePressurePage> {
   TextEditingController pulseController = TextEditingController();
   TextEditingController contextController = TextEditingController();
 
-  // 측정 상황 리스트
+  /// 측정 상황 리스트
   List<DropdownMenuEntry<String>> contextList = [];
-  // 선택한 측정 상황 값
+  /// 선택한 측정 상황 값
   String? selectContext;
 
-  // 측정 상황 불러오기
+  /// 측정 상황 불러오기
   Future<void> readContext() async {
     try {
       final response = await dio.get("$domain/blood/measurement");
@@ -58,7 +58,7 @@ class _CreatePressurePageState extends State<CreatePressurePage> {
   }
 
 
-  // 혈당 데이터 작성하기
+  /// 혈당 데이터 작성하기
   Future<void> writeData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -120,7 +120,7 @@ class _CreatePressurePageState extends State<CreatePressurePage> {
       body : SafeArea(
         child : SingleChildScrollView(
           child : Container(
-            padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 16.0),
+            padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 16.0),
             width : double.infinity,
             child : Column(
               crossAxisAlignment : CrossAxisAlignment.start,

@@ -22,16 +22,16 @@ class _BoardPageState extends State<BoardPage> {
   Dio dio = Dio();
   String domain = ServerDomain.domain;
 
-  // 공지 게시물 리스트
+  /// 공지 게시물 리스트
   List<dynamic> noticeList = [];
-  // 공지 외 게시물 리스트
+  /// 공지 외 게시물 리스트
   List<dynamic> otherList = [];
-  // 공지 + 그외 게시물 리스트
+  /// 공지 + 그외 게시물 리스트
   List<dynamic> postList = [];
-  // 선택한 카테고리
+  /// 선택한 카테고리
   String selectCategory = "전체";
 
-  // 공지 일부 게시물 가져오기 (서버에서 최근 3개만 보냄)
+  /// 공지 일부 게시물 가져오기 (서버에서 최근 3개만 보냄)
   Future<void> findNotices() async {
     try {
       final response = await dio.get("$domain/board/notice");
@@ -47,7 +47,7 @@ class _BoardPageState extends State<BoardPage> {
     }
   }
 
-  // 공지 제외 게시물 가져오기
+  /// 공지 제외 게시물 가져오기
   Future<void> findData({required String boardCategoryTitle}) async {
     try {
       String url;
@@ -76,7 +76,7 @@ class _BoardPageState extends State<BoardPage> {
     firstMethod();
   }
 
-  // 최초 1회 실행
+  /// 최초 1회 실행
   Future<void> firstMethod() async {
     await findNotices();
     await findData(boardCategoryTitle : "전체");
@@ -257,13 +257,13 @@ class _BoardPageState extends State<BoardPage> {
           Row(
             children : [
               Container(
-                margin : const EdgeInsets.symmetric(horizontal : 8, vertical : 8),
+                margin : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
                 width : 48,
                 height : 48,
                 child : Image.asset("assets/images/bloodmate_logo-default.png"),
               ),
               Padding(
-                padding : const EdgeInsets.only(left : 16.0),
+                padding : const EdgeInsets.only(left : 8.0),
                 child : Text("블러드 메이트", style : TextStyle(color : AppColors.mainTextColor, fontSize : 32, fontWeight : FontWeight.bold)),
               ),
             ],
@@ -272,7 +272,7 @@ class _BoardPageState extends State<BoardPage> {
 
           // 게시물 작성하기
           Container(
-            padding : const EdgeInsets.symmetric(horizontal : 8, vertical : 8),
+            padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
             child : ElevatedButton(
               onPressed : () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();

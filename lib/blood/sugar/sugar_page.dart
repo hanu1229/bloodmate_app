@@ -50,7 +50,7 @@ class _SugarPageState extends State<SugarPage> {
     // });
   }
 
-  // 혈당 데이터 불러오기
+  /** 혈당 데이터 불러오기 */
   Future<void> readData() async {
     setState(() { _isLoading = true; });
     try {
@@ -100,8 +100,9 @@ class _SugarPageState extends State<SugarPage> {
           children : [
             Column(
               children : [
+                /** 추가하기 버튼 */
                 Container(
-                  margin : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+                  margin : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
                   width : double.infinity,
                   child : ElevatedButton(
                     onPressed : () async {
@@ -131,9 +132,10 @@ class _SugarPageState extends State<SugarPage> {
             ),
           ],
         ),
+        /** 정보 카드 */
         Expanded(
           child : Container(
-            padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+            padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
             width : double.infinity,
             child: Column(
               crossAxisAlignment : CrossAxisAlignment.start,

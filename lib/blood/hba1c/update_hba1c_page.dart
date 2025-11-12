@@ -44,7 +44,7 @@ class _UpdateHba1cPageState extends State<UpdateHba1cPage> {
     nextController.text = widget.next;
   }
 
-  // 데이터 수정하기
+  /// 데이터 수정하기
   Future<void> updateData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -89,7 +89,7 @@ class _UpdateHba1cPageState extends State<UpdateHba1cPage> {
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 16.0),
+          padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 16.0),
           width : double.infinity,
           child : Column(
             crossAxisAlignment : CrossAxisAlignment.start,

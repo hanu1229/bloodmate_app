@@ -60,12 +60,13 @@ class _UpdateCommentPageState extends State<UpdateCommentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar : AppBar(
-        title : Text("댓글 수정"),
+        title : Text("댓글 수정하기"),
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+          padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
           width : double.infinity,
           child : Column(
             children : [

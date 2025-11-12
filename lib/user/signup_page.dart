@@ -229,6 +229,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar : AppBar(
         title : Text("회원가입"),
         backgroundColor : Colors.white,
@@ -236,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body : SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding : const EdgeInsets.all(32.0),
+            padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
             color : Colors.white,
             width : double.infinity,
             child : Column(
@@ -461,7 +462,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-// 전화번호 입력 정규화
+/// 전화번호 입력 정규화
 class PhoneHyphenFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

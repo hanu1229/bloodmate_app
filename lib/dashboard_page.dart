@@ -17,25 +17,25 @@ class _DashboardPageState extends State<DashboardPage> {
   String domain = ServerDomain.domain;
   bool _isLogin = false;
 
-  // 당화혈색소 데이터
+  /// 당화혈색소 데이터
   Map<String, dynamic> hba1cData = {};
-  // 혈당 데이터
+  /// 혈당 데이터
   Map<String, dynamic> sugarData = {};
-  // 혈압 데이터
+  /// 혈압 데이터
   Map<String, dynamic> pressureData = {};
-  // 혈당 측정 상황 리스트
+  /// 혈당 측정 상황 리스트
   List<DropdownMenuEntry<String>> sugarContextList = [];
-  // 혈압 측정 상황 리스트
+  /// 혈압 측정 상황 리스트
   List<DropdownMenuEntry<String>> pressureContextList = [];
-  // 선택한 혈당 측정 상황 값
+  /// 선택한 혈당 측정 상황 값
   String? selectSugarContext;
-  // 선택한 혈압 측정 상황 값
+  /// 선택한 혈압 측정 상황 값
   String? selectPressureContext;
 
   TextEditingController pressureController = TextEditingController();
   TextEditingController sugarController = TextEditingController();
 
-  // 측정 상황 불러오기
+  /// 측정 상황 불러오기
   Future<void> readContext() async {
     try {
       final response = await dio.get("$domain/blood/measurement");
@@ -75,7 +75,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // 로그인 여부
+  /// 로그인 여부
   Future<void> checkLogin() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -90,7 +90,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // 당화혈색소 최근 1개 정보 불러오기
+  /// 당화혈색소 최근 1개 정보 불러오기
   Future<void> findHba1cLatest() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -106,7 +106,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // 혈당 최소, 최대, 평균 불러오기
+  /// 혈당 최소, 최대, 평균 불러오기
   Future<void> findSugarAverage() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -127,7 +127,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // 혈압 최소, 최대, 평균 불러오기
+  /// 혈압 최소, 최대, 평균 불러오기
   Future<void> findPressureAverage() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -147,7 +147,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // 최초 1회 실행 함수
+  /// 최초 1회 실행 함수
   Future<void> initMethod() async {
     await checkLogin();
     if(_isLogin == true) {
@@ -173,7 +173,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return SafeArea(
       child : _isLogin ? SingleChildScrollView(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+          padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
           width : double.infinity,
           child : Column(
             children : [

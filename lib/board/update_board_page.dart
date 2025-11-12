@@ -140,13 +140,14 @@ class _UpdateBoardPageState extends State<UpdateBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar : AppBar(
-        title : Text("게시물 작성"),
+        title : Text("게시물 수정하기"),
       ),
       body : SafeArea(
         child : SingleChildScrollView(
           child : Container(
-            padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+            padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
             width : double.infinity,
             child : Column(
               crossAxisAlignment : CrossAxisAlignment.start,

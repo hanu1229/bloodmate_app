@@ -47,7 +47,7 @@ class _DeletePressurePageState extends State<DeletePressurePage> {
       shape : RoundedRectangleBorder(
         borderRadius : BorderRadius.circular(8.0),
       ),
-      title : Text("혈당 삭제하기"),
+      title : Text("혈압 삭제하기"),
       content : Column(
         crossAxisAlignment : CrossAxisAlignment.start,
         mainAxisSize : MainAxisSize.min,

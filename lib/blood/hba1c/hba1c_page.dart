@@ -101,8 +101,9 @@ class _Hba1cPageState extends State<Hba1cPage> {
           children : [
             Column(
               children : [
+                /** 추가하기 버튼 */
                 Container(
-                  padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+                  padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
                   width : double.infinity,
                   child : ElevatedButton(
                     onPressed : () async {
@@ -132,9 +133,10 @@ class _Hba1cPageState extends State<Hba1cPage> {
             ),
           ],
         ),
+        /** 정보 카드 */
         Expanded(
           child : Container(
-            padding : const EdgeInsets.symmetric(horizontal : 32.0, vertical : 8.0),
+            padding : const EdgeInsets.symmetric(horizontal : 16.0, vertical : 8.0),
             width : double.infinity,
             child: Column(
               crossAxisAlignment : CrossAxisAlignment.start,

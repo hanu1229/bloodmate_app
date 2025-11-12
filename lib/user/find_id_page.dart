@@ -21,7 +21,7 @@ class _FindIdPageState extends State<FindIdPage> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController codeController = TextEditingController();
 
-  // 인증번호 발송
+  /// 인증번호 발송
   Future<void> getCode() async {
     try {
       final data = {
@@ -46,7 +46,7 @@ class _FindIdPageState extends State<FindIdPage> {
     }
   }
 
-  // 인증번호 확인
+  /// 인증번호 확인
   Future<void> sendCode() async {
     try {
       final data = {
@@ -72,7 +72,7 @@ class _FindIdPageState extends State<FindIdPage> {
     }
   }
 
-  // 아이디 찾기
+  /// 아이디 찾기
   Future<void> findId() async {
     try {
       final data = {
@@ -106,7 +106,7 @@ class _FindIdPageState extends State<FindIdPage> {
       ),
       body : SafeArea(
         child : Container(
-          padding : const EdgeInsets.symmetric(horizontal : 32, vertical : 8),
+          padding : const EdgeInsets.symmetric(horizontal : 16, vertical : 8),
           width : double.infinity,
           child : Column(
             crossAxisAlignment : CrossAxisAlignment.start,

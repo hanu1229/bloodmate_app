@@ -35,7 +35,7 @@ class _EmailChangePageState extends State<EmailChangePage> {
     });
   }
 
-  // 이메일 수정
+  /// 이메일 수정
   Future<void> changeEmail() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -72,101 +72,105 @@ class _EmailChangePageState extends State<EmailChangePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 키보드 픽셀 오류
+      resizeToAvoidBottomInset : false,
       backgroundColor : Colors.white,
       appBar : AppBar(
-        title : Text("이메일 수정"),
+        title : Text("이메일 수정하기"),
         backgroundColor : Colors.white,
       ),
-      body : Container(
-        padding : const EdgeInsets.symmetric(vertical : 16.0, horizontal : 16.0),
-        width : double.infinity,
-        child : Column(
-          crossAxisAlignment : CrossAxisAlignment.start,
-          children : [
-            Text("현재 이메일", style : TextStyle(fontSize : 20)),
-            SizedBox(height : 16),
-            // 현재 이메일
-            SizedBox(
-              // height : 40,
-              child: TextField(
-                controller : oldEmailController,
-                readOnly : true,
-                decoration : InputDecoration(
-                  border : OutlineInputBorder(
-                    borderSide : BorderSide(color : AppColors.mainColor, width : 1)
-                  ),
-                  focusedBorder : OutlineInputBorder(
+      body : SafeArea(
+        child : Container(
+          padding : const EdgeInsets.symmetric(vertical : 16.0, horizontal : 16.0),
+          width : double.infinity,
+          child : Column(
+            crossAxisAlignment : CrossAxisAlignment.start,
+            children : [
+              Text("현재 이메일", style : TextStyle(fontSize : 20)),
+              SizedBox(height : 16),
+              // 현재 이메일
+              SizedBox(
+                // height : 40,
+                child: TextField(
+                  controller : oldEmailController,
+                  readOnly : true,
+                  decoration : InputDecoration(
+                    enabledBorder : OutlineInputBorder(
                       borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+                    ),
+                    focusedBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+                    ),
+                    prefixIcon : Icon(Icons.email, color : AppColors.mainColor),
                   ),
-                  prefixIcon : Icon(Icons.email, color : AppColors.mainColor),
                 ),
               ),
-            ),
-            SizedBox(height : 16),
-            Text("변경할 이메일", style : TextStyle(fontSize : 20)),
-            SizedBox(height : 16),
-            // 변경할 이메일
-            SizedBox(
-              // height : 40,
-              child: TextField(
-                controller : newEmailController,
-                decoration : InputDecoration(
-                  labelText : "이메일 형식으로",
-                  enabledBorder : OutlineInputBorder(
-                      borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+              SizedBox(height : 16),
+              Text("변경할 이메일", style : TextStyle(fontSize : 20)),
+              SizedBox(height : 16),
+              // 변경할 이메일
+              SizedBox(
+                // height : 40,
+                child: TextField(
+                  controller : newEmailController,
+                  decoration : InputDecoration(
+                    hintText : "이메일 형식으로",
+                    enabledBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+                    ),
+                    focusedBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 2)
+                    ),
+                    prefixIcon : Icon(Icons.email, color : AppColors.mainColor),
                   ),
-                  focusedBorder : OutlineInputBorder(
-                      borderSide : BorderSide(color : AppColors.mainColor, width : 2)
-                  ),
-                  prefixIcon : Icon(Icons.email, color : AppColors.mainColor),
                 ),
               ),
-            ),
-            SizedBox(height : 16),
-            Text("비밀번호", style : TextStyle(fontSize : 20)),
-            SizedBox(height : 16),
-            // 비밀번호
-            SizedBox(
-              // height : 40,
-              child: TextField(
-                controller : passwordController,
-                obscureText : _visibility,
-                decoration : InputDecoration(
-                  enabledBorder : OutlineInputBorder(
-                      borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+              SizedBox(height : 16),
+              Text("비밀번호", style : TextStyle(fontSize : 20)),
+              SizedBox(height : 16),
+              // 비밀번호
+              SizedBox(
+                // height : 40,
+                child: TextField(
+                  controller : passwordController,
+                  obscureText : _visibility,
+                  decoration : InputDecoration(
+                    enabledBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 1)
+                    ),
+                    focusedBorder : OutlineInputBorder(
+                        borderSide : BorderSide(color : AppColors.mainColor, width : 2)
+                    ),
+                    prefixIcon : Icon(Icons.key, color : AppColors.mainColor),
+                    suffixIcon : IconButton(
+                      onPressed : () {
+                        setState(() {
+                          _visibility = !_visibility;
+                        });
+                      },
+                      icon : Icon(_visibility ? Icons.visibility : Icons.visibility_off, color : AppColors.mainColor),
+                    ),
                   ),
-                  focusedBorder : OutlineInputBorder(
-                      borderSide : BorderSide(color : AppColors.mainColor, width : 2)
-                  ),
-                  prefixIcon : Icon(Icons.key, color : AppColors.mainColor),
-                  suffixIcon : IconButton(
-                    onPressed : () {
-                      setState(() {
-                        _visibility = !_visibility;
-                      });
-                    },
-                    icon : Icon(_visibility ? Icons.visibility : Icons.visibility_off, color : AppColors.mainColor),
-                  ),
-                ),
 
-              ),
-            ),
-            SizedBox(height : 16),
-            SizedBox(
-              width : double.infinity,
-              child : ElevatedButton(
-                style : ElevatedButton.styleFrom(
-                  backgroundColor : AppColors.mainColor,
-                  shape : RoundedRectangleBorder(
-                    borderRadius : BorderRadius.circular(8.0),
-                  ),
                 ),
-                onPressed: changeEmail,
-                child: Text("변경하기", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
               ),
-            ),
-            SizedBox(height : 16),
-          ],
+              SizedBox(height : 16),
+              SizedBox(
+                width : double.infinity,
+                child : ElevatedButton(
+                  style : ElevatedButton.styleFrom(
+                    backgroundColor : AppColors.mainColor,
+                    shape : RoundedRectangleBorder(
+                      borderRadius : BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  onPressed: changeEmail,
+                  child: Text("수정하기", style : TextStyle(color : Colors.white, fontSize : 16, fontWeight : FontWeight.bold)),
+                ),
+              ),
+              SizedBox(height : 16),
+            ],
+          ),
         ),
       ),
     );
